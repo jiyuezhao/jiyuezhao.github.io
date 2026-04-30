@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body>
+<div id="out" style="white-space:pre-wrap;font-size:12px;"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+async function extract() {
+  const pdf = await pdfjsLib.getDocument('uploads/JiyueZhao_CV.pdf').promise;
+  let all = '';
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const tc = await page.getTextContent();
+    all += tc.items.map(x => x.str).join(' ') + '\n\n--- PAGE BREAK ---\n\n';
+  }
+  document.getElementById('out').textContent = all;
+}
+extract();
+</script>
+</body>
+</html>
